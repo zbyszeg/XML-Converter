@@ -1,3 +1,4 @@
+package com.zbyszeg.sopoltrad.analyseconverter;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,7 +12,7 @@ public class Progress extends JFrame {
 		setSize(450, 90);
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setIconImage(new ImageIcon(getClass().getResource("img/analyse.png")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("/img/analyse.png")).getImage());
 		
 		text = new JLabel("Przetwarzanie...");
 		text.setBounds(30, 10, 200, 30);
