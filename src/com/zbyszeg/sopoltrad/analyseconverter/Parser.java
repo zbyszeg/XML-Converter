@@ -63,7 +63,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -102,7 +101,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -122,7 +120,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -142,7 +139,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -162,7 +158,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -184,7 +179,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -210,7 +204,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -230,7 +223,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t" + "="
 											+ element3.getAttribute("words") + "/$A$2\t" + element3.getAttribute("tags")
 											+ "\n";
-
 								}
 							}
 						}
@@ -250,7 +242,6 @@ public class Parser {
 											+ element3.getAttribute("characters") + "\t100%\t"
 											+ element3.getAttribute("tags") + "\n";
 									all = element3.getAttribute("words");
-
 								}
 							}
 						}

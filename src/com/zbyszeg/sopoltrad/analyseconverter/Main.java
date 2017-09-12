@@ -122,7 +122,6 @@ public class Main {
 
 				if (response == JOptionPane.CANCEL_OPTION)
 					System.exit(1);
-
 			}
 		}
 	}
