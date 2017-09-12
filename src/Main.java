@@ -13,6 +13,7 @@ public class Main {
 
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager.put("OptionPane.cancelButtonText", "Anuluj");
 		} catch (UnsupportedLookAndFeelException e) {
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
@@ -21,9 +22,10 @@ public class Main {
 
 		int fl, ifl;
 		String filebody = "";
-		String all = "Words:\t";
-		String name;
-
+		String all = "Words total:\t";
+		String location = args[0];
+		String c = "\\";
+		String name, filename, newName = null;
 		fl = 0;
 		ifl = 0;
 
@@ -31,15 +33,27 @@ public class Main {
 
 		int condition = 0;
 
+		Progress window = new Progress();
 		while (condition != 1) {
+			window.setVisible(false);
 			name = (String) JOptionPane.showInputDialog(null, "WprowadŸ nazwê pliku XML z analiz¹:",
 					"Sopoltrad Analyse Converter", JOptionPane.QUESTION_MESSAGE, null, null, "analyse.xml");
+
+			filename = location + c + name;
 
 			if (name == null)
 				System.exit(1);
 
+			if (!name.contains(".xml") && !name.contains(".XML"))
+				name += ".xml";
+
+			int dot = name.indexOf('.');
+			newName = name.substring(0, dot);
+
+			window.setVisible(true);
+
 			try {
-				File inputFile = new File(name);
+				File inputFile = new File(filename);
 
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -491,22 +505,51 @@ public class Main {
 
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
-						"Nieprawid³owa nazwa pliku lub brak pliku w folderze. Spróbuj wpisaæ inn¹ nazwê.", "B³¹d odczytu pliku",
-						JOptionPane.ERROR_MESSAGE);
+						"Nieprawid³owa nazwa pliku lub brak pliku w folderze. Spróbuj wpisaæ inn¹ nazwê.",
+						"B³¹d odczytu pliku", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		StringBuilder _filebody = new StringBuilder(filebody);
 		_filebody.insert(0, all + "\n\n");
 
-		try {
-			PrintWriter save = new PrintWriter("analyse.xl");
-			save.print(_filebody);
-			save.close();
-			JOptionPane.showMessageDialog(null, "Zapisano plik analyse.xl, który mo¿na otowrzyæ w programie MS Excell.",
-					"Zakoñczono pomyœlnie", JOptionPane.INFORMATION_MESSAGE);
-		} catch (FileNotFoundException e) {
-			// brak dostêpu do pliku - plik otwarty
-			e.printStackTrace();
+		int condition2 = 0;
+
+		while (condition2 != 1) {
+			try {
+				PrintWriter save = new PrintWriter("Analyse");
+				save.print(_filebody);
+				save.close();
+
+				String vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" " + newName;
+
+				try {
+					Runtime.getRuntime().exec(vb);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "System napotka³ problem przy uruchamianiu skrytpu VBS.",
+							"B³¹d wykonania skryptu", JOptionPane.ERROR_MESSAGE);
+					System.exit(1);
+				}
+
+				window.setVisible(false);
+				condition2 = 1;
+
+				JOptionPane.showMessageDialog(null, "Zapisano plik\n'" + newName + ".xlsx'", "Zakoñczono pomyœlnie",
+						JOptionPane.INFORMATION_MESSAGE);
+
+				File file = new File("Analyse");
+				file.delete();
+
+				System.exit(0);
+			} catch (FileNotFoundException e) {
+				int response = JOptionPane.showConfirmDialog(null,
+						"Prawdopodobnie plik jest otwarty. Spróbuj zamkn¹æ plik i kliknij OK.",
+						"Problem z dostêpem do pliku Analyse", JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.CANCEL_OPTION)
+					System.exit(1);
+
+			}
 		}
 	}
 }
