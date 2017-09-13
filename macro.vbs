@@ -13,3 +13,6 @@ objExcel.Workbooks("Analyse").SaveAs _
 objExcel.Workbooks(WScript.Arguments(1) & ".xlsx").Close
 
 objExcel.Quit
+
+Set obj = CreateObject("Scripting.FileSystemObject")
+obj.DeleteFile(WScript.Arguments(0) & "\Analyse")
