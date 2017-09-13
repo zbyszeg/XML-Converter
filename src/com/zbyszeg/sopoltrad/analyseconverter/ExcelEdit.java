@@ -30,7 +30,7 @@ public class ExcelEdit {
 			XSSFFont font = workbook.createFont();
 			
 			font.setBold(true);
-			font.setColor(new XSSFColor(new Color(102,0,0)));
+			font.setColor(new XSSFColor(new Color(51,51,102)));
 			font.setFontHeight(12);
 			
 

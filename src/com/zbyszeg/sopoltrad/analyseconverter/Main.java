@@ -67,7 +67,7 @@ public class Main {
 			condition2 = saver.getCondition();
 		}
 
-		vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" " + newName;
+		vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" \"" + newName+"\"";
 		saver.setScript(vb);
 
 		newFile = location+c+newName + ".xlsx";
