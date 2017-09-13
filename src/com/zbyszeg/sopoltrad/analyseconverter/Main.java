@@ -1,12 +1,8 @@
 package com.zbyszeg.sopoltrad.analyseconverter;
 
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.io.*;
 
 public class Main {
 
@@ -25,16 +21,20 @@ public class Main {
 		String all = "";
 		String location = args[0];
 		String c = "\\";
-		String name, filename, newName = null;
+		String name, filename, vb, newFile;
+		String newName = "";
 
 		int condition = 0;
+		int condition2 = 0;
 
 		Parser parser = new Parser();
 		Progress window = new Progress();
+		Saver saver = new Saver();
+		ExcelEdit editor = new ExcelEdit();
 
 		while (condition != 1) {
 			window.setVisible(false);
-			name = (String) JOptionPane.showInputDialog(null, "WprowadŸ nazwê pliku XML z analiz¹:",
+			name = (String) JOptionPane.showInputDialog(null, "WprowadÅº nazwÄ™ pliku XML z analizÄ…:",
 					"Sopoltrad Analyse Converter", JOptionPane.QUESTION_MESSAGE, null, null, "analyse.xml");
 
 			if (name == null)
@@ -58,71 +58,29 @@ public class Main {
 			all += "Words:\n" + parser.getAll();
 			condition = parser.getCondition();
 		}
-		StringBuilder _filebody = new StringBuilder(filebody);
-		_filebody.insert(0, all + "\n\n");
 
-		int condition2 = 0;
+		StringBuilder _filebody = new StringBuilder(filebody);
+		saver.setFilebody((_filebody.insert(0, all + "\n\n")).toString());
 
 		while (condition2 != 1) {
-			try {
-				PrintWriter save = new PrintWriter("Analyse");
-				save.print(_filebody);
-				save.close();
-
-				String vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" " + newName;
-
-				try {
-					Runtime.getRuntime().exec(vb);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "System napotka³ problem przy uruchamianiu skrytpu VBS.",
-							"B³¹d wykonania skryptu", JOptionPane.ERROR_MESSAGE);
-					System.exit(1);
-				}
-
-				window.setVisible(false);
-				condition2 = 1;
-
-				JOptionPane.showMessageDialog(null, "Zapisano plik\n'" + newName + ".xlsx'", "Zakoñczono pomyœlnie",
-						JOptionPane.INFORMATION_MESSAGE);
-
-				File file = new File("Analyse");
-				file.delete();
-
-				try {
-					FileInputStream file2 = new FileInputStream(new File(newName + ".xlsx"));
-
-					XSSFWorkbook workbook = new XSSFWorkbook(file2);
-					XSSFSheet analyse = workbook.getSheetAt(0);
-					analyse.autoSizeColumn(1);
-					analyse.autoSizeColumn(2);
-					analyse.autoSizeColumn(3);
-					analyse.autoSizeColumn(4);
-					analyse.autoSizeColumn(5);
-					analyse.autoSizeColumn(6);
-
-					XSSFFormulaEvaluator.evaluateAllFormulaCells((XSSFWorkbook) workbook);
-
-					file2.close();
-
-					FileOutputStream outFile = new FileOutputStream(new File(newName + ".xlsx"));
-					workbook.write(outFile);
-					outFile.close();
-					workbook.close();
-
-				} catch (Exception e) {
-
-				}
-
-				System.exit(0);
-			} catch (FileNotFoundException e) {
-				int response = JOptionPane.showConfirmDialog(null,
-						"Prawdopodobnie plik jest otwarty. Spróbuj zamkn¹æ plik i kliknij OK.",
-						"Problem z dostêpem do pliku Analyse", JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-
-				if (response == JOptionPane.CANCEL_OPTION)
-					System.exit(1);
-			}
+			saver.save();
+			condition2 = saver.getCondition();
 		}
+
+		vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" " + newName;
+		saver.setScript(vb);
+
+		newFile = location+c+newName + ".xlsx";
+
+		editor.setNewFile(newFile);
+		saver.saveExcel();
+
+		JOptionPane.showMessageDialog(null, "Zapisano plik\n'" + newName + ".xlsx'", "ZakoÅ„czono pomyÅ›lnie",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		editor.editor();
+		window.setVisible(false);
+		
+		System.exit(0);
 	}
 }

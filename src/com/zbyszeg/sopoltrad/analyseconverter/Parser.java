@@ -467,8 +467,8 @@ public class Parser {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"Nieprawid³owa nazwa pliku lub brak pliku w folderze. Spróbuj wpisaæ inn¹ nazwê.",
-					"B³¹d odczytu pliku", JOptionPane.ERROR_MESSAGE);
+					"NieprawidÅ‚owa nazwa pliku lub brak pliku w folderze. SprÃ³buj wpisaÄ‡ innÄ… nazwÄ™.",
+					"BÅ‚Ä…d odczytu pliku", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
