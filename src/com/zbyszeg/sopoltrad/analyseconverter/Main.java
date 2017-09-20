@@ -78,7 +78,7 @@ public class Main {
 
 		newFile = location + c + newName + ".xlsx";
 		editor.setNewFile(newFile);
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		editor.editor();
 		window.setVisible(false);
 
