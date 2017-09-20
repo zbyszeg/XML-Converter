@@ -7,16 +7,12 @@ import javax.swing.JOptionPane;
 
 public class Saver {
 	private int condition;
-	private String fileBody, script;
-	
+	private String fileBody;
+
 	public void setFilebody(String fileBody) {
 		this.fileBody = fileBody;
 	}
-	
-	public void setScript(String script) {
-		this.script = script;
-	}
-	
+
 	public void save() {
 		try {
 			PrintWriter save = new PrintWriter("Analyse");
@@ -35,17 +31,7 @@ public class Saver {
 				System.exit(1);
 		}
 	}
-	
-	public void saveExcel() {
-		try {
-			Runtime.getRuntime().exec(script);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "System napotkał problem przy uruchamianiu skrytpu VBS.",
-					"Błąd wykonania skryptu", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-		}
-	}
-	
+
 	public int getCondition() {
 		return condition;
 	}

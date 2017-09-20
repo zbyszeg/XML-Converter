@@ -6,7 +6,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -34,7 +34,7 @@ public class Main {
 
 		while (condition != 1) {
 			window.setVisible(false);
-			name = (String) JOptionPane.showInputDialog(null, "Wprowadź nazwę pliku XML z analizą:",
+			name = (String) JOptionPane.showInputDialog(null, "Wprowadź nazwę pliku XML z analizą:   ",
 					"Sopoltrad Analyse Converter", JOptionPane.QUESTION_MESSAGE, null, null, "analyse.xml");
 
 			if (name == null)
@@ -67,20 +67,24 @@ public class Main {
 			condition2 = saver.getCondition();
 		}
 
-		vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" \"" + newName+"\"";
-		saver.setScript(vb);
+		vb = "wscript C:\\SopoltradStudio\\macro.vbs " + "\"" + location + "\" \"" + newName + "\"";
+		try {
+			Runtime.getRuntime().exec(vb);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "System napotkał problem przy uruchamianiu skrytpu VBS.",
+					"Błąd wykonania skryptu", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
 
-		newFile = location+c+newName + ".xlsx";
-
+		newFile = location + c + newName + ".xlsx";
 		editor.setNewFile(newFile);
-		saver.saveExcel();
-
-		JOptionPane.showMessageDialog(null, "Zapisano plik\n'" + newName + ".xlsx'", "Zakończono pomyślnie",
-				JOptionPane.INFORMATION_MESSAGE);
-
+		Thread.sleep(500);
 		editor.editor();
 		window.setVisible(false);
-		
+
+		JOptionPane.showMessageDialog(null, "Zapisano plik '" + newName + ".xlsx'", "Zakończono pomyślnie",
+				JOptionPane.INFORMATION_MESSAGE);
+
 		System.exit(0);
 	}
 }
